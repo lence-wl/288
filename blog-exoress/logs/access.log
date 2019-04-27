@@ -1,0 +1,3 @@
+::1 - - [27/Apr/2019:10:25:00 +0000] "GET /api/blog/detail?id=64 HTTP/1.1" 304 - "http://localhost:8080/blogDetail?id=64" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36"
+::1 - - [27/Apr/2019:10:25:21 +0000] "GET /api/blog/detail?id=64 HTTP/1.1" 304 - "http://localhost:8080/blogDetail?id=64" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36"
+::1 - - [27/Apr/2019:10:25:38 +0000] "GET /api/blog/detail?id=64 HTTP/1.1" 304 - "http://localhost:8080/blogDetail?id=64" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36"
