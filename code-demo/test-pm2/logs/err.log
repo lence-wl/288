@@ -1,0 +1,9 @@
+2019-05-11 16:55:18: 假装出错 1557564918476
+2019-05-11 16:55:18: Error: /err 出错了
+2019-05-11 16:55:18:     at Server.http.createServer (E:\288\code-demo\test-pm2\app.js:12:15)
+2019-05-11 16:55:18:     at Server.emit (events.js:182:13)
+2019-05-11 16:55:18:     at Server.<anonymous> (C:\Users\lence\AppData\Roaming\npm\node_modules\pm2\node_modules\@pm2\io\build\main\metrics\httpMetrics.js:161:33)
+2019-05-11 16:55:18:     at parserOnIncoming (_http_server.js:672:12)
+2019-05-11 16:55:18:     at HTTPParser.parserOnHeadersComplete (_http_common.js:109:17)
+2019-05-11 16:55:38: 假装出错 1557564938783
+2019-05-11 16:55:39: 假装出错 1557564939371
