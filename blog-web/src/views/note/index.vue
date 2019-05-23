@@ -58,7 +58,6 @@
     }
     .bodyBox{
         display: flex;
-        margin-top: 20px;
     }
     .sideBox_l{
         width: 15%;

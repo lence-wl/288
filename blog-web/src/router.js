@@ -34,12 +34,17 @@ export default new Router({
         {
             path:'/essay',
             name: 'essay',
-            component: () => import(/* webpackChunkName: "blog" */ './views/essay/essay.vue')
+            component: () => import(/* webpackChunkName: "blog" */ './views/blog/createBlog.vue')
         },
         {
             path: '/login',
             name: 'login',
             component: () => import(/* webpackChunkName: "blog" */ './views/user/login.vue')
+        },
+        {
+            path: '/createBlog',
+            name: 'createBlog',
+            component: () => import(/* webpackChunkName: "blog" */ './views/blog/createBlog.vue')
         },
         {
             path: '/admin',

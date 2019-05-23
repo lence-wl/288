@@ -41,11 +41,10 @@
                             </a-select>
                         </a-form-item>
                     </a-col>
-                </a-row>
 
-                <a-row>
                     <a-col
-                            :span="24"
+                            :span="4"
+                            class="formSearchBtn"
                             :style="{ textAlign: 'right' }"
                     >
                         <a-button
@@ -62,9 +61,27 @@
                         </a-button>
                     </a-col>
                 </a-row>
+
+                <a-row>
+
+                </a-row>
             </a-form>
             <div class="search-result-list">
-                Search Result List
+                <a-table :columns="columns" :dataSource="data">
+                    <a slot="name" slot-scope="text" href="javascript:;">{{text}}</a>
+                    <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
+                    <span slot="tags" slot-scope="tags"><a-tag v-for="tag in tags" color="blue" :key="tag">{{tag}}</a-tag>
+                    </span>
+                                    <span slot="action" slot-scope="text, record">
+                      <a href="javascript:;">Invite 一 {{record.name}}</a>
+                      <a-divider type="vertical" />
+                      <a href="javascript:;">Delete</a>
+                      <a-divider type="vertical" />
+                      <a href="javascript:;" class="ant-dropdown-link">
+                        More actions <a-icon type="down" />
+                      </a>
+                    </span>
+                </a-table>
             </div>
         </div>
 
@@ -72,6 +89,52 @@
 </template>
 
 <script>
+
+    const columns = [{
+        dataIndex: 'name',
+        key: 'name',
+        slots: { title: 'customTitle' },
+        scopedSlots: { customRender: 'name' },
+    }, {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+    }, {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    }, {
+        title: 'Tags',
+        key: 'tags',
+        dataIndex: 'tags',
+        scopedSlots: { customRender: 'tags' },
+    }, {
+        title: 'Action',
+        key: 'action',
+        scopedSlots: { customRender: 'action' },
+    }];
+
+    const data = [{
+        key: '1',
+        name: 'John Brown',
+        age: 32,
+        address: 'New York No. 1 Lake Park',
+        tags: ['nice', 'developer'],
+    }, {
+        key: '2',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+        tags: ['loser'],
+    }, {
+        key: '3',
+        name: 'Joe Black',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+        tags: ['cool', 'teacher'],
+    }];
+
+
     export default {
         name: "",
         components: {},
@@ -79,6 +142,8 @@
             return {
                 expand: false,
                 form: this.$form.createForm(this),
+                data,
+                columns,
             };
         },
         created(){
@@ -123,8 +188,14 @@
 </script>
 <style lang="scss">
     .blogManage{
+        padding: 12px 19px;
+        .formSearchBtn{
+            padding-top: 4px;
+        }
+        .ant-advanced-search-form .ant-form-item {
+            margin-bottom: 20px;
+        }
         .ant-advanced-search-form {
-            padding: 24px;
             background: #fbfbfb;
             border: 1px solid #d9d9d9;
         }
@@ -143,11 +214,9 @@
         #components-form-demo-advanced-search .search-result-list {
             margin-top: 16px;
             border: 1px dashed #e9e9e9;
-            border-radius: 6px;
             background-color: #fafafa;
             min-height: 200px;
             text-align: center;
-            padding-top: 80px;
         }
     }
 

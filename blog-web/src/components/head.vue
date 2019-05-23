@@ -180,6 +180,7 @@
 </script>
 <style lang="scss">
     .head{
+        margin-bottom: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
         display: flex;
         align-items:center;
@@ -207,10 +208,10 @@
             .navItem{
                 margin: 0 6px;
                 :hover{
-                    border-bottom: 2px solid #000;
+                    border-bottom: 2px solid #1890ff;
                 }
                 .isActive{
-                    border-bottom: 2px solid #000;
+                    border-bottom: 2px solid #1890ff;
                 }
             }
             .searchItem{

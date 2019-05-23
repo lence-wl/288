@@ -52,6 +52,7 @@
         .ant-list-item-meta-description{
             color: #333;
         }
+
     }
 
 </style>

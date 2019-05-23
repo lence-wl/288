@@ -4,8 +4,8 @@
 -->
 
 <template>
-    <div class="index">
-        <div style="width: 15%">
+    <div class="adminIndex">
+        <div style="width: 15%;border-right: 1px solid #e8e8e8">
             <a-menu
                     :defaultSelectedKeys="['article']"
                     mode="inline"
@@ -27,7 +27,7 @@
 <script>
 
     export default {
-        name: "index",
+        name: "adminIndex",
         components: {},
         data() {
             return {
@@ -66,8 +66,17 @@
         methods: {}
     }
 </script>
-<style>
-    .index{
+<style lang="scss">
+    .adminIndex{
+        .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+            border-right: none;
+        }
         display: flex;
+        margin-top: 4px;
+        .blogManage .ant-advanced-search-form{
+            background: #fff;
+            border:none;
+            border-bottom: 1px solid #d9d9d9;
+        }
     }
 </style>

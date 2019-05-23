@@ -1,5 +1,26 @@
 const Koa = require('koa')
 const app = new Koa()
+
+// app.use((ctx, next) => {
+//
+//
+//    /* Content-Length: 261
+//     Server: waf/2.14.2-2.el6
+//     X-WAF-UUID: d2fb9b9d-479e-4963-8e8b-af108eb95714
+//     Last-Modified: Fri, 27 Jul 2018 12:14:41 GMT
+//     ETag: "5b5b0cb1-105"
+//     Expires: Thu, 23 May 2019 08:22:58 GMT
+//     Cache-Control: no-cache
+//     a: 1
+//     X-Frame-Options: SAMEORIGIN
+//     Accept-Ranges: bytes
+//     X-Via: 1.1 zhouwangtong151:0 (Cdn Cache Server V2.0), 1.1 PSjlybwtgo131:1 (Cdn Cache Server V2.0), 1.1 tong14:4 (Cdn Cache Server V2.0)
+//     Connection: keep-alive*/
+//
+//     ctx.set('Content-Type', 'text/xml')
+//     next()
+// });
+
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
@@ -27,6 +48,8 @@ app.use(bodyparser({
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
+
+
 
 app.use(views(__dirname + '/views', {
   extension: 'pug'
@@ -74,6 +97,7 @@ app.use(session({
     })
 
 }))
+
 
 // routes
 app.use(index.routes(), index.allowedMethods())
