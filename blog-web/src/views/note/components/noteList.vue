@@ -64,7 +64,7 @@
         methods:{
             itemDetail(id){
                 this.$router.push({
-                    name:'noteDetail',
+                    name:'NoteDetail',
                     query:{
                         id:id,
                     }

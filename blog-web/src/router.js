@@ -10,52 +10,72 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'index',
+            name: 'Index',
             component: Index,
 
         },
         {
             path:'/note',
-            name: 'note',
             component: () => import(/* webpackChunkName: "blog" */ './views/note'),
             children:[
                 {
                     path:'/',
-                    name: 'noteList',
+                    name: 'NoteList',
                     component: () => import(/* webpackChunkName: "blog" */ './views/note/components/noteList.vue')
                 },
                 {
                     path: '/noteDetail',
-                    name: 'noteDetail',
+                    name: 'NoteDetail',
                     component: () => import(/* webpackChunkName: "blog" */ './views/note/components/noteDetail')
                 },
             ]
         },
         {
             path:'/essay',
-            name: 'essay',
-            component: () => import(/* webpackChunkName: "blog" */ './views/blog/createBlog.vue')
+            name: 'Essay',
+            component: () => import(/* webpackChunkName: "blog" */ './views/essay/essay.vue')
         },
         {
             path: '/login',
-            name: 'login',
+            name: 'Login',
             component: () => import(/* webpackChunkName: "blog" */ './views/user/login.vue')
         },
         {
             path: '/createBlog',
-            name: 'createBlog',
+            name: 'CreateBlog',
             component: () => import(/* webpackChunkName: "blog" */ './views/blog/createBlog.vue')
         },
         {
             path: '/admin',
-            name: 'admin',
+            name: 'Admin',
             component: () => import(/* webpackChunkName: "admin" */ './views/admin'),
             children:[
                 {
                     path:'blogManage',
-                    name: 'blogManage',
-                    component: () => import(/* webpackChunkName: "admin" */ './views/admin/components/blogManage.vue')
+                    name: 'BlogManage',
+                    component: () => import(/* webpackChunkName: "admin" */ './views/admin/page/blogManager'),
+                    children:[
+                        {
+                            path:'/',
+                            name: 'List',
+                            alias:'blogList',
+                            component: () => import(/* webpackChunkName: "admin" */ './views/admin/page/blogManager/page/blogList.vue'),
+                        },
+                        {
+                            path:'new',
+                            name: 'New',
+                            keepAlive:true,
+                            component: () => import(/* webpackChunkName: "admin" */ './views/admin/page/blogManager/page/createBlog.vue')
+                        },
+                        {
+                            path:'edit',
+                            name: 'edit',
+                            component: () => import(/* webpackChunkName: "admin" */ './views/admin/page/blogManager/page/createBlog.vue')
+                        },
+                    ]
                 },
+
+
             ]
         },
 

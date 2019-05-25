@@ -3,7 +3,8 @@ const { exec,escape } = require('../db/mysql')
 
 
 const getList = async (author,keyword) => {
-    let sql = `select * from blogs where 1=1 `
+    let sql = `select id,title,author,createtime,views,tags,sketch from blogs where 1=1 `
+
     if (author != '') {
         sql += `and author=${author} `
     }
@@ -47,16 +48,22 @@ const newBlog = async (blogData = {}) => {
 
 const updateBlog = async (blogData = {}) => {
     // blogData 是一个博客对象，包含 id title content 属性
-    const id = escape(blogData.id)
-    const title = escape(blogData.title)
-    const content = escape(blogData.content)
 
-    const sql = `update blogs set title=${title}, content=${content} where id=${id};`
-    const updateData = await exec(sql)
-    if (updateData.affectedRows > 0) {
-        return true
+    //说明是新曾或者编辑
+    const id = escape(blogData.id)
+    let sql;
+    if(blogData.title){
+        const title = escape(blogData.title)
+        const content = escape(blogData.content)
+        const tags = escape(blogData.tags)
+        const sketch = escape(blogData.sketch)
+        sql = `update blogs set title=${title}, content=${content}, tags=${tags}, sketch=${sketch} where id=${id};`
+    }else{
+        const updateTime = new Date().getTime()
+        sql = `update blogs set createtime=${updateTime} where id=${id};`
     }
-    return false
+    const updateData = await exec(sql)
+    return updateData.affectedRows > 0;
 }
 
 const delBlog = async (id, author) => {

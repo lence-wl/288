@@ -166,7 +166,7 @@
                         console.log('Received values of form: ', values);
                         this.post('api/user/login', values).then(res => {
                             this.visible = false;
-                            this.$message.success('登录成功！');
+                            this.$message(res);
                             this.logLoading = false;
                             if (!res.errno) {
                                 this.$router.push('/')

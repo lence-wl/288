@@ -39,30 +39,35 @@ router.get('/detail', async function (ctx, next) {
 router.post('/new', loginCheck, async function (ctx, next) {
     const body = ctx.request.body
     body.author = ctx.session.username
-
     const data = await newBlog(body)
-    ctx.body = new SuccessModel(data)
+    if(data){
+        ctx.body = new SuccessModel('发布成功')
+    }else{
+        ctx.body = new ErrorModel('发布失败')
+    }
+
 
 });
 // 更新文章
 router.post('/update', loginCheck, async function (ctx, next) {
     // req.body 应该包含  id title content 属性，会加上tas
-    const data = await updateBlog(ctx.query.body)
+    console.log(ctx.request.body)
+    const data = await updateBlog(ctx.request.body)
     if (data) {
-        ctx.body = new SuccessModel('更新博客成功')
+        ctx.body = new SuccessModel('更新成功')
     } else {
-        ctx.body = new SuccessModel('更新博客失败')
+        ctx.body = new SuccessModel('更新失败')
     }
 });
 // 删除文章
 router.post('/del', loginCheck, async function (ctx, next) {
     // req.body 应该包含 id
-    const data = await delBlog(ctx.body.id, ctx.session.username)
+    const data = await delBlog(ctx.request.body.id, ctx.session.username)
     if (data) {
-        ctx.body = new SuccessModel('删除博客成功')
+        ctx.body = new SuccessModel('删除成功')
 
     } else {
-        ctx.body = new SuccessModel('删除博客失败')
+        ctx.body = new ErrorModel('删除失败')
     }
 })
 module.exports = router

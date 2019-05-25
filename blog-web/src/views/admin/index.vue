@@ -16,7 +16,6 @@
                     <span>{{ item.name }}</span>
                 </a-menu-item>
             </a-menu>
-
         </div>
         <div style="width:85%">
             <router-view></router-view>

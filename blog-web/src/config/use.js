@@ -24,6 +24,7 @@ import {
     message,   //全局展示操作反馈信息。可提供成功、警告和错误等反馈信息。顶部居中显示并自动消失，是一种不打断用户操作的轻量级提示方式。
     notification,//在系统四个角显示通知提醒信息,常用于较为复杂的通知内容。带有交互的通知，给出用户下一步的行动点。系统主动推送。
     Modal, //模态对话框。需要用户处理事务，又不希望跳转页面以致打断工作流程时，可以使用 Modal 在当前页面正中打开一个浮层，承载相应的操作。
+    DatePicker,
 
 
 } from 'ant-design-vue';
@@ -35,7 +36,17 @@ message.config({
 });
 
 
-Vue.prototype.$message = message;
+Vue.prototype.$message =function(res){
+    const errno = parseInt(res.errno)
+    console.log(errno === 1)
+    console.log(errno === 0)
+    if(errno === 0){  // 成功提示
+        message.success(res.message,3)
+    }else if(errno === 1){ //失败提示
+        message.error(res.message,3)
+    }
+
+};
 Vue.prototype.$notification = notification;
 Vue.prototype.$info = Modal.info;
 Vue.prototype.$success = Modal.success;
@@ -65,4 +76,5 @@ Vue.use(Select)
 Vue.use(Collapse)
 Vue.use(Dropdown)
 Vue.use(Modal)
+Vue.use(DatePicker)
 
