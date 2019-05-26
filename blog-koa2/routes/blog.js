@@ -14,6 +14,8 @@ router.prefix('/api/blog')
 router.get('/list', async function (ctx, next) {
     let author = ctx.query.author || '';
     const keyword = ctx.query.keyword || '';
+    const tags = ctx.query.tags || '';
+    const createtime = ctx.query.createtime || '';
     if (ctx.query.isadmin) {
         if (ctx.session.username == null) {
             // 未登录
@@ -24,7 +26,7 @@ router.get('/list', async function (ctx, next) {
     }
 
     // result 为一个promise
-    const listData = await getList(author, keyword)
+    const listData = await getList(author, keyword,createtime,tags)
     //直接返回 组装好的成功数据格式
     ctx.body = new SuccessModel(listData)
 })

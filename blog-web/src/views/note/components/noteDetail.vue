@@ -1,6 +1,6 @@
 <template>
     <div class="createBlog" style="padding: 20px">
-        <p style="text-align: center">{{ blogData.title }}</p>
+        <p style="text-align: center;font-weight: bolder;font-size: 16px">{{ blogData.title }}</p>
         <!-- 用来放置服务器返回的内容 -->
         <div id="result" style="border-top: 1px solid #ddd; padding: 20px;"></div>
     </div>

@@ -24,6 +24,11 @@
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-width: 1366px;
+ .ant-advanced-search-form{
+    background: #fff;
+    border:none;
+    border-bottom: 1px solid #d9d9d9;
+  }
 
 }
 

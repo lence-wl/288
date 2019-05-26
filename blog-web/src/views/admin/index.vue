@@ -13,7 +13,10 @@
                     :inlineCollapsed="collapsed"
             >
                 <a-menu-item v-for="item in menuList" :key="item.key">
-                    <span>{{ item.name }}</span>
+                    <router-link :to="{ name: item.routerName}">
+                        <span>{{ item.name }}</span>
+                    </router-link>
+
                 </a-menu-item>
             </a-menu>
         </div>
@@ -34,19 +37,34 @@
                 menuList:[
                     {
                         name:'文章管理',
-                        key:'article'
+                        key:'article',
+                        router:'blogList',
+                        routerName:'BlogList'
+                    },
+                    {
+                        name:'标签管理',
+                        key:'tags',
+                        router:'tagList',
+                        routerName:'TagList'
                     },
                     {
                         name:'友链管理',
-                        key:'friendLink'
+                        key:'friendLink',
+                        router:'friendLinkList',
+                        routerName:'FriendLinkList'
+
                     },
                     {
                         name:'浏览统计',
-                        key:'statistic'
+                        key:'statistic',
+                        router:'statistic',
+                        routerName:'Statistic'
                     },
                     {
                         name:'日志查看',
-                        key:'logCheck'
+                        key:'logCheck',
+                        router:'logCheck',
+                        routerName:'LogCheck'
                     },
 
                 ]
@@ -72,10 +90,6 @@
         }
         display: flex;
         margin-top: 4px;
-        .blogManage .ant-advanced-search-form{
-            background: #fff;
-            border:none;
-            border-bottom: 1px solid #d9d9d9;
-        }
+
     }
 </style>

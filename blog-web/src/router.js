@@ -57,25 +57,28 @@ export default new Router({
                     children:[
                         {
                             path:'/',
-                            name: 'List',
+                            name: 'BlogList',
                             alias:'blogList',
                             component: () => import(/* webpackChunkName: "admin" */ './views/admin/page/blogManager/page/blogList.vue'),
                         },
                         {
                             path:'new',
-                            name: 'New',
+                            name: 'NewBlog',
                             keepAlive:true,
                             component: () => import(/* webpackChunkName: "admin" */ './views/admin/page/blogManager/page/createBlog.vue')
                         },
                         {
                             path:'edit',
-                            name: 'edit',
+                            name: 'BlogEdit',
                             component: () => import(/* webpackChunkName: "admin" */ './views/admin/page/blogManager/page/createBlog.vue')
+                        },
+                        {
+                            path:'tagList',
+                            name: 'TagList',
+                            component: () => import(/* webpackChunkName: "admin" */ './views/admin/page/blogManager/page/tagList.vue')
                         },
                     ]
                 },
-
-
             ]
         },
 

@@ -16,6 +16,7 @@
                               'title',
                               { rules: [{ required: true, message: 'Please input your username!' }] }
                             ]"
+                            option.initialValue="ssss"
                             placeholder="请输入"
                     >
 
@@ -74,7 +75,7 @@
                 >
                     <div style="text-align: right">
                         <a-button @click="handleSubmit" type="primary">
-                            发布
+                            {{  id ?  "提交修改" : "发布"}}
                         </a-button>
                     </div>
 
@@ -94,49 +95,63 @@
 
 <script>
     // 使用UEditor富文本组件
-    import UEditor from '../../../components/UEditor'
+    import UEditor from '../../../../../components/UEditor'
+    import API from '../../../../../utils/request/api'
     export default {
+        components: {
+            UEditor,
+        },
         beforeCreate () {
             this.form = this.$form.createForm(this);
         },
         data() {
             return {
                 myEditor:{},
+                blogData:{},
             }
         },
-        components: {
-            UEditor,
+        computed:{
+            id:function () {
+                return this.$route.query.id
+            }
         },
-        created(){
-
-        },
-
         mounted() {
-
+            if(this.id){
+                this.getBlogData(this.id)
+            }
         },
         methods: {
             getEditor(editor){
                 this.myEditor = editor.UEditor;
-                setTimeout( () => {
-                    this.myEditor.execCommand('inserthtml',
-                        '<p>这里写你的初始化内容</p><pre class=\\"brush:js;toolbar:false;\\">const&nbsp;name&nbsp;=&nbsp;&quot;lencce&quot;</pre><p><br/></p>'
-
-                    )
-                },1000)
-
+                if(this.id){
+                    this.getBlogData(this.id)
+                }
             },
-
             getEditorContent(){
-                console.log(this.myEditor.getContent())
+                this.myEditor.getContent()
+            },
+            getBlogData(id){
+                this.get('api/blog/detail', {id}).then(res => {
+                    console.log(res)
+                    try{
+                        this.myEditor.execCommand('inserthtml',
+                            res.data.content
+                        )
+                    }catch(e){}
+                    const {title,sketch,tags} = res.data
+                    this.form.setFieldsValue({title,sketch,tags:tags.split(',')});
+                })
             },
             handleSubmit (e) {
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err && this.myEditor.getContent()) {
                         values.content = this.myEditor.getContent();
-                        this.post('api/blog/new',values).then((res) => {
-                            this.$message(res)
-                        })
+                            values.id = this.id;
+                            values.tags = values.tags.toString()
+                            this.post(values.id ? API.editBlog : API.createBlog ,values).then((res) => {
+                                this.$message(res)
+                            })
                     }
                 });
             },

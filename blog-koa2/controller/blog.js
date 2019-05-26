@@ -1,24 +1,34 @@
+const moment = require('moment')
 const { exec,escape } = require('../db/mysql')
-
-
-
-const getList = async (author,keyword) => {
-    let sql = `select id,title,author,createtime,views,tags,sketch from blogs where 1=1 `
-
-    if (author != '') {
+const getList = async (author,keyword,createtime,tags) => {
+    //SELECT id,DATE_FORMAT(date1,'%Y-%m-%d %H:%i:%s') As date1,
+    // DATE_FORMAT(date2,'%Y-%m-%d %H:%i:%s') As date2 FROM test;
+    let sql = `select id as 'key',title,author, createtime,views,tags,sketch from blogs where 1=1 `
+    // 按作者
+    if (author) {
         sql += `and author=${author} `
     }
+    // 关键字
     if (keyword != '') {
-        sql += `and title like ${keyword} `
+        sql += `and title like ${escape(`%${keyword}%`)}`
     }
-    sql += `order by createtime desc;`
-
+    // 发布时间
+    if (createtime != '') {
+        sql += `and createtime like  ${escape(`%${createtime}%`)}`
+    }
+    // 标签
+    if (tags != '') {
+        sql += `and tags like ${escape(`%${tags}%`)} `
+    }
+    sql += `order by timestamp desc;`
+console.log(sql)
     return await exec(sql)
 }
 
 const getDetail = async (id) => {
     id = escape(id)
     const sql = `select * from blogs where id=${id}`
+    console.log(sql)
     // 这里和直接  return exec(sql) 的区别是， 对then 中返回的数据做了删选，同样也是返回了一个promise
     const rows = await exec(sql)
     return rows[0]
@@ -32,12 +42,11 @@ const newBlog = async (blogData = {}) => {
     const tags = escape(blogData.tags.toString())
     const sketch = escape(blogData.sketch)
     const author = escape(blogData.author)
-    const createTime = Date.now()
-    console.log(tags)
-
+    const timestamp = escape(new Date().getTime())
+    const createTime =escape(moment().format('YYYY-MM-DD'))
     const sql = `
-        insert into blogs (title, content, createtime, author, tags, sketch)
-        values (${title}, ${content}, ${createTime}, ${author}, ${tags}, ${sketch})
+        insert into blogs (title, content, createtime, author, tags, sketch, timestamp)
+        values (${title}, ${content}, ${createTime}, ${author}, ${tags}, ${sketch}, ${timestamp})
     `
     const insertData = await exec(sql)
     return {
@@ -52,15 +61,16 @@ const updateBlog = async (blogData = {}) => {
     //说明是新曾或者编辑
     const id = escape(blogData.id)
     let sql;
+    // 编辑或者新增
     if(blogData.title){
         const title = escape(blogData.title)
         const content = escape(blogData.content)
         const tags = escape(blogData.tags)
         const sketch = escape(blogData.sketch)
         sql = `update blogs set title=${title}, content=${content}, tags=${tags}, sketch=${sketch} where id=${id};`
-    }else{
-        const updateTime = new Date().getTime()
-        sql = `update blogs set createtime=${updateTime} where id=${id};`
+    }else{ // 置顶
+        const timestamp = new Date().getTime()
+        sql = `update blogs set timestamp=${timestamp} where id=${id};`
     }
     const updateData = await exec(sql)
     return updateData.affectedRows > 0;

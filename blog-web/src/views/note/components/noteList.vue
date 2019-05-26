@@ -10,10 +10,10 @@
                     <a-list-item-meta
                             :description="item.sketch"
                     >
-                        <a slot="title" @click="itemDetail(item.id)" style="overflow: hidden;display: block;">
+                        <a slot="title" @click="itemDetail(item.key)" style="overflow: hidden;display: block;">
                             <span style="font-weight: bolder;color: #333">{{item.title}}</span>
                             <span style="float:right; font-size: 14px;color: #999999;font-weight: lighter">
-                                {{ dateFormat(new Date(item.createtime)) }}
+                                {{ dateFormat(new Date(item.createtime)).substring(0,10) }}
                             </span>
                         </a>
                         <div slot="title" class="listLabelBox">
@@ -23,9 +23,6 @@
                         </div>
                         <a-avatar slot="avatar" style="visibility: hidden" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                     </a-list-item-meta>
-
-
-
                     <template class="list-action" slot="actions" v-for="{type, text} in actions">
                         <span :key="type">
                           <a-icon :type="type" style="margin-right: 8px" />
@@ -40,6 +37,7 @@
 
 <script>
     import {dateFormat} from '../../../utils/funcTool'
+    import APi from '../../../utils/request/api'
     export default {
         name: 'note',
         components:{
@@ -55,7 +53,7 @@
             }
         },
         created(){
-            this.get('api/blog/list').then(res => {
+            this.get(APi.blogList).then(res => {
                 console.log(res)
                 this.data = res.data
             })
