@@ -5,7 +5,8 @@ const {
     getDetail,
     newBlog,
     updateBlog,
-    delBlog
+    delBlog,
+    setRecommend
 } = require('../controller/blog')
 const {SuccessModel, ErrorModel} = require('../model/resModel')
 const loginCheck = require('../middleware/loginCheck')
@@ -59,6 +60,16 @@ router.post('/update', loginCheck, async function (ctx, next) {
         ctx.body = new SuccessModel('更新成功')
     } else {
         ctx.body = new SuccessModel('更新失败')
+    }
+});
+// 设为推荐
+router.post('/setRec', loginCheck, async function (ctx, next) {
+    // req.body 应该包含  id isRec
+    const data = await setRecommend(ctx.request.body)
+    if (data) {
+        ctx.body = new SuccessModel('设置成功')
+    } else {
+        ctx.body = new SuccessModel('设置失败')
     }
 });
 // 删除文章

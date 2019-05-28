@@ -3,7 +3,7 @@ const { exec,escape } = require('../db/mysql')
 const getList = async (author,keyword,createtime,tags) => {
     //SELECT id,DATE_FORMAT(date1,'%Y-%m-%d %H:%i:%s') As date1,
     // DATE_FORMAT(date2,'%Y-%m-%d %H:%i:%s') As date2 FROM test;
-    let sql = `select id as 'key',title,author, createtime,views,tags,sketch from blogs where 1=1 `
+    let sql = `select id as 'key',title,author, createtime,views,tags,sketch,isrec  from blogs where 1=1 `
     // 按作者
     if (author) {
         sql += `and author=${author} `
@@ -89,10 +89,25 @@ const delBlog = async (id, author) => {
     })
 }
 
+const setRecommend = async (blogData) => {
+    // id 就是要删除博客的 id
+    const id = escape(blogData.id)
+    const isrec = escape(blogData.isrec)
+    const sql = `update blogs set isrec=${isrec}  where id=${id};`
+    console.log(sql)
+    return exec(sql).then(delData => {
+        if (delData.affectedRows > 0) {
+            return true
+        }
+        return false
+    })
+}
+
 module.exports = {
     getList,
     getDetail,
     newBlog,
     updateBlog,
-    delBlog
+    delBlog,
+    setRecommend,
 }

@@ -219,10 +219,6 @@
                     }
                 })
             },
-            // 启用标签
-            activeTag(item){
-                console.log('qy')
-            },
             // 禁用标签
             changeTagState(item){
                 this.post(API.changeTagState,{id:item.key,state:item.state ? 0:1}).then((res) => {
@@ -244,9 +240,10 @@
                             this.$message(res)
                             if(!res.errno){
                                 this.addTagModalVisible = false;
-                                this.addTagLoading = false;
                                 this.getTagList()
                             }
+                            this.addTagLoading = false;
+
                         })
                     }
 

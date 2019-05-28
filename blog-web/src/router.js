@@ -21,12 +21,12 @@ export default new Router({
                 {
                     path:'/',
                     name: 'NoteList',
-                    component: () => import(/* webpackChunkName: "blog" */ './views/note/components/noteList.vue')
+                    component: () => import(/* webpackChunkName: "blog" */ './views/note/page/noteList.vue')
                 },
                 {
                     path: '/noteDetail',
                     name: 'NoteDetail',
-                    component: () => import(/* webpackChunkName: "blog" */ './views/note/components/noteDetail')
+                    component: () => import(/* webpackChunkName: "blog" */ './views/note/page/noteDetail')
                 },
             ]
         },

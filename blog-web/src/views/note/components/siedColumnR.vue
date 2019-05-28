@@ -10,14 +10,11 @@
         <div class="CardBox">
             <div class="tagsBox">
                 <div class="title">标签分类</div>
-                <span  class="sortTag">javaScript</span>
-                <span  class="sortTag">css</span>
-                <span  class="sortTag">node</span>
-                <span  class="sortTag">python</span>
-                <span  class="sortTag">python</span>
-                <span  class="sortTag">python</span>
-                <span  class="sortTag">python</span>
-                <span  class="sortTag">python</span>
+                <div style="display: flex;flex-flow:row wrap;">
+                    <div class="tagWrapper" style="position: relative" v-for="(item,key) in tagData" :key="key">
+                        <span   class="sortTag">{{ item.tag }}</span>
+                    </div>
+                </div>
             </div>
 
             <div class="recommendList">
@@ -35,17 +32,18 @@
 </template>
 
 <script>
-
+    import API from '../../../utils/request/api'
     export default {
         name: "sideBarR",
         components: {},
         data() {
             return {
-                text: `A dog is a type of domesticated animal.Known for its loyalty and faithfulness,it can be found as a welcome guest in many households across the world.`,
+                tagData:[],
+                state:1,
             }
         },
         created() {
-
+            this.getTagList()
         },
         computed:{
 
@@ -54,7 +52,15 @@
         mounted() {
 
         },
-        methods: {}
+        methods: {
+            // 标签列表请求
+            getTagList(){
+                this.get(API.tagList,{state:this.state}).then(res => {
+                    console.log(res.data)
+                    this.tagData = res.data
+                })
+            },
+        }
     }
 </script>
 <style lang="scss">
@@ -73,12 +79,22 @@
             border-bottom: 1px solid #e8e8e8;
 
         }
+        .tagWrapper{
+            padding: 5px 20px 5px 0;
+            float: left;
+        }
         .sortTag{
             font-size: 14px;
-            padding: 5px 20px 5px 0;
             height: auto;
-            display: inline-block;
             cursor: pointer;
+            position: relative;
+            z-index:1;
+            &:hover{
+                transform:scale(1.1,1.1);
+                display: block;
+                font-weight: bold;
+            }
+
         }
         .recommendList_item{
             cursor: pointer;

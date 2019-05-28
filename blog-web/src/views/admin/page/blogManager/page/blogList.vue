@@ -22,14 +22,13 @@
                         </a-form-item>
                     </a-col>
                     <a-col :span="4">
-                        <a-form-item label="选择标签">
-                            <a-select :allowClear="true" placeholder="请选择"
-                                      v-decorator="['tags']"
+                        <a-form-item label="选标签">
+                            <a-select :allowClear="true"
+                                      placeholder="请选择"
+                                      :maxTagCount="3"
+                                      :dropdownStyle="{maxHeight:'250px',overflow:'auto'}"
                                       @change="handleChange">
-                                <a-select-option value="javascript">javascript</a-select-option>
-                                <a-select-option value="html">html</a-select-option>
-                                <a-select-option value="python">python</a-select-option>
-                                <a-select-option value="nodejs">nodejs</a-select-option>
+                                <a-select-option v-for="(item,key) in tagData" value="javascript" :key="key" :value="item.tag"> {{ item.tag }} </a-select-option>
                             </a-select>
                         </a-form-item>
                     </a-col>
@@ -81,10 +80,15 @@
                     <span slot="tags" slot-scope="tags">
                         <a-tag  v-for="(tag,index) in tags.split(',')" color="blue" v-show="tag" :key="tag.id">{{tag}}</a-tag>
                     </span>
+                    <span slot="isrec" slot-scope="isrec">
+                        {{ isrec.isrec==1 ? '是' : '否' }}
+                    </span>
                     <span slot="action" slot-scope="text, item">
                       <a @click="editBlog(item)">编辑</a>
-                        <a-divider type="vertical" />
-                      <a @click="putToTop(item)" style="color: lawngreen">置顶</a>
+                      <a-divider type="vertical" />
+                      <a @click="setRecommend(item)" >{{ item.isrec ? '取消推荐':'设置推荐' }}</a>
+                      <a-divider type="vertical" />
+                      <a @click="putToTop(item)">置顶</a>
                       <a-divider type="vertical" />
                       <a @click="deleteBlog(item)" style="color: red">删除</a>
                     </span>
@@ -122,10 +126,16 @@ import API from '../../../../../utils/request/api'
             dataIndex: 'views',
     },
         {
+            title: '是否推荐',
+            key: 'isrec',
+            scopedSlots: { customRender: 'isrec' },
+        },
+        {
             title: '操作',
             key: 'action',
             scopedSlots: { customRender: 'action' },
-        }
+        },
+
     ];
     export default {
         name: "",
@@ -137,10 +147,12 @@ import API from '../../../../../utils/request/api'
                 form: this.$form.createForm(this),
                 createtime:"",
                 tableLoadin:false,
+                tagData:[],
             };
         },
         created(){
             this.getBlogList()
+            this.getTagList()
         },
         computed:{
         },
@@ -162,6 +174,13 @@ import API from '../../../../../utils/request/api'
                         console.log(res)
                     })
                 });
+            },
+            // 标签列表请求
+            getTagList(){
+                this.get(API.tagList,{state:this.state}).then(res => {
+                    console.log(res.data)
+                    this.tagData = res.data
+                })
             },
 
             handleReset () {
@@ -196,6 +215,15 @@ import API from '../../../../../utils/request/api'
             },
             putToTop(item){
                 this.post(API.editBlog,{id:item.key}).then((res) => {
+                    this.$message(res)
+                    if(!res.errno){
+                        this.getBlogList()
+                    }
+                })
+            },
+            setRecommend(item){
+                console.log(item.isrec)
+                this.post(API.setReco,{id:item.key,isrec:!item.isrec}).then((res) => {
                     this.$message(res)
                     if(!res.errno){
                         this.getBlogList()
