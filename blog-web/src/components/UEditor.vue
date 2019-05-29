@@ -29,7 +29,7 @@
                     toolbars: [[
                         'fullscreen',  'undo', 'redo', '|',
                         'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset',
-                        'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist',  'cleardoc', '|',
+                        'pasteplain', '|', 'forecolor', 'backcolor',   'cleardoc', '|',
                         'paragraph', 'fontfamily',  '|',
                         'indent', '|',
                         'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',

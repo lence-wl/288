@@ -3,6 +3,7 @@
 @Date: 2019-05-12
 -->
 
+<!--suppress ALL -->
 <template>
     <div class="blogManage">
         <div id="components-form-demo-advanced-search">
@@ -95,7 +96,6 @@
                 </a-table>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -148,6 +148,9 @@ import API from '../../../../../utils/request/api'
                 createtime:"",
                 tableLoadin:false,
                 tagData:[],
+                ModalText: 'Content of the modal',
+                visible: false,
+                confirmLoading: false,
             };
         },
         created(){
@@ -197,14 +200,34 @@ import API from '../../../../../utils/request/api'
             onDataChange(date, dateString) {
                 this.createtime = dateString
             },
-            deleteBlog(item){
-                const {key} = item;
-                this.post(API.deleteBlog,{id:key}).then(res => {
-                    this.$message(res)
-                    if(!res.errno){
-                        this.getBlogList()
-                    }
-                })
+            deleteBlog(itemData){
+                console.log(itemData)
+                this.visible = true;
+                const self = this;
+                this.$confirm({
+                    title: `确认删除 ${itemData.title} 该篇文章 ？`,
+                    content: (<p style="color: red"> 删除后无法找回，请谨慎操作！ </p>),
+                    okText: '删除',
+                    okType: 'danger',
+                    cancelText: '取消',
+                    onOk() {
+                        self.post(API.deleteBlog,{id:itemData.key}).then(res => {
+                            self.$message(res);
+                            self.getBlogList()
+                        })
+                    },
+
+                });
+
+
+            },
+            handleCancel(){
+                this.visible = false;
+                this.confirmLoading = false;
+            },
+            handleOk(item){
+                const key = {item}
+                return this.post(API.deleteBlog,{id:key})
             },
             editBlog(item){
                 this.$router.push({
