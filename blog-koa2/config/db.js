@@ -9,8 +9,8 @@ if(env === 'dev'){
     // mysql
     MYSQL_CONF = {
         host:'localhost',
-        user:'root',
-        password:'lence0516',
+        user:'xxxxx',
+        password:'xxxxxx',
         port:'3306',
         database:'myblog',
     }
